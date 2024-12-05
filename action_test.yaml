@@ -1,0 +1,102 @@
+openapi: "3.1.0"
+info:
+  title: "Weather API"
+  version: "1.0.0"
+  description: "API to fetch weather data from OpenWeatherMap using city names"
+servers:
+  - url: "http://localhost:9900"
+    description: "Weather API"
+paths:
+  /weather:
+    get:
+      summary: "Get weather data for a city"
+      operationId: "weather"
+      parameters:
+        - name: "city"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+            example: "barcelona"
+          description: "The name of the city to fetch weather for."
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  coord:
+                    type: "object"
+                    properties:
+                      lon:
+                        type: "number"
+                      lat:
+                        type: "number"
+                  weather:
+                    type: "array"
+                    items:
+                      type: "object"
+                      properties:
+                        id:
+                          type: "integer"
+                        main:
+                          type: "string"
+                        description:
+                          type: "string"
+                        icon:
+                          type: "string"
+                  main:
+                    type: "object"
+                    properties:
+                      temp:
+                        type: "number"
+                      feels_like:
+                        type: "number"
+                      temp_min:
+                        type: "number"
+                      temp_max:
+                        type: "number"
+                      pressure:
+                        type: "integer"
+                      humidity:
+                        type: "integer"
+                  wind:
+                    type: "object"
+                    properties:
+                      speed:
+                        type: "number"
+                      deg:
+                        type: "integer"
+                  sys:
+                    type: "object"
+                    properties:
+                      country:
+                        type: "string"
+                      sunrise:
+                        type: "integer"
+                      sunset:
+                        type: "integer"
+                  name:
+                    type: "string"
+                  cod:
+                    type: "integer"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  detail:
+                    type: "string"
+        "404":
+          description: "City not found"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  detail:
+                    type: "string"
